@@ -6,9 +6,11 @@ const App = () => import('./App')
 import * as firebase from 'firebase'
 import router from './router'
 import { store } from './store'
+import { mapActions } from 'vuex'
 const AlertCmp = () => import('./components/Shared/Alert.vue')
 
 Vue.use(Vuetify)
+Vue.use(require('vue-moment'))
 Vue.config.productionTip = false
 
 Vue.component('app-alert', AlertCmp)
@@ -19,18 +21,26 @@ new Vue({
   store,
   template: '<App/>',
   components: { App },
-  created () {
-    firebase.initializeApp({
-      apiKey: '',
-      authDomain: '',
-      databaseURL: '',
-      projectId: '',
-      storageBucket: ''
+  methods: {
+    ...mapActions({
+      fetchMessages: 'fetchMessages'
     })
+  },
+  created () {
+    const config = {
+      apiKey: 'AIzaSyB6bAF7V37eTcIoc7WPLz_XASFevQc7fhw',
+      authDomain: 'vue-firebase-bd964.firebaseapp.com',
+      databaseURL: 'https://vue-firebase-bd964.firebaseio.com',
+      projectId: 'vue-firebase-bd964',
+      storageBucket: 'vue-firebase-bd964.appspot.com',
+      messagingSenderId: '338307905402'
+    }
+    firebase.initializeApp(config)
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.$store.dispatch('autoSignIn', user)
       }
     })
+    this.fetchMessages()
   }
 })

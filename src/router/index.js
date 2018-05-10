@@ -4,6 +4,7 @@ const Home = () => import('@/components/Home')
 const Profile = () => import('@/components/User/Profile')
 const Signup = () => import('@/components/User/Signup')
 const Signin = () => import('@/components/User/Signin')
+import ChatRoom from '@/components/chat/chatRoom.vue'
 import AuthGuard from './auth-guard'
 
 Vue.use(Router)
@@ -30,6 +31,11 @@ export default new Router({
       path: '/signin',
       name: 'Signin',
       component: Signin
+    },
+    {
+      path: '/chatroom',
+      name: 'ChatRoom',
+      component: ChatRoom
     }
   ],
   mode: 'history'
