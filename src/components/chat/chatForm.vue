@@ -1,11 +1,26 @@
 <template>
     <div class="container">
         <h2>CHATFORM</h2>
-
-        <textarea v-model="message"></textarea>
-        <button class="btn btn-success" @click="handleSubmitPost">SUBMIT</button>
-
-
+         <v-container fluid>
+            <v-layout column>
+              <v-flex xs4>
+              <v-subheader>Enter your message here :</v-subheader>
+              </v-flex>
+              <v-flex xs8>
+                <v-text-field
+                  box
+                  multi-line
+                  v-model="message"
+                  id="message"
+                  name="input-1"
+                  label="My message..."
+                ></v-text-field>
+              </v-flex>
+              <v-btn 
+                @click="handleSubmitPost"
+                color="info">Submit</v-btn>
+            </v-layout>
+          </v-container>
     </div>
 </template>
 <script>
@@ -25,9 +40,9 @@ export default {
         content: this.message,
         authorName: this.user.displayName ? this.user.displayName : this.user.email,
         authorId: this.user.id,
+        authorPicture: this.user.photoUrl ? this.user.photoUrl : 'https://png.icons8.com/metro/1600/contacts.png',
         date: Date()
       }
-      console.log(newMessage)
       this.postMessage(newMessage)
       this.message = ''
     },
@@ -44,7 +59,7 @@ export default {
 }
 </script>
 <style lang="stylus">
-    .container 
-        padding 10px
-        border 1px solid red
+
+  
+
 </style>

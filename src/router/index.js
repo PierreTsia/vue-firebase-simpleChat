@@ -5,6 +5,7 @@ const Profile = () => import('@/components/User/Profile')
 const Signup = () => import('@/components/User/Signup')
 const Signin = () => import('@/components/User/Signin')
 import ChatRoom from '@/components/chat/chatRoom.vue'
+import Boards from '@/components/boards/boards.vue'
 import AuthGuard from './auth-guard'
 
 Vue.use(Router)
@@ -36,6 +37,11 @@ export default new Router({
       path: '/chatroom',
       name: 'ChatRoom',
       component: ChatRoom
+    },
+    {
+      path: '/boards',
+      name: 'Boards',
+      component: Boards
     }
   ],
   mode: 'history'

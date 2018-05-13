@@ -39,6 +39,7 @@ export default {
             content: response[key].content,
             authorName: response[key].authorName,
             authorId: response[key].authorId,
+            authorPicture: response[key].authorPicture,
             date: response[key].date
           })
         }

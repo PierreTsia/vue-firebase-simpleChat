@@ -1,57 +1,30 @@
 <template>
     <div>
-       
-             <v-list three-line>
-              <template              
-                v-for="(message, index) in lastMessages">
-                <v-subheader>
-                     
-                </v-subheader>
-              
-                <v-list-tile>
-               
-                  <v-list-tile-content>
-                    <v-list-tile-title 
-                      :class="{
-                        'myMessage': userIsAuthor(message),
-                        'otherUserMessage': !userIsAuthor(message)
-                      }"
-                      v-html="message.content"></v-list-tile-title>
-                    <v-list-tile-sub-title 
-                      :class="{
-                        'myMessage': userIsAuthor(message),
-                        'otherUserMessage': !userIsAuthor(message)
-                      }"
-                      v-html="message.authorName">
-                    </v-list-tile-sub-title>
-                    <v-list-tile-sub-title 
-                      :class="{
-                        'myMessage': userIsAuthor(message),
-                        'otherUserMessage': !userIsAuthor(message)
-                      }"
-                      >{{message.date | moment("from", "now", true)}} ago
-                    </v-list-tile-sub-title>
-                    
-                  </v-list-tile-content>
-                </v-list-tile>
-              </template>
-                <v-divider></v-divider>
-        </v-list>
-              
-                
+        <div class="chatForm_container">
+          <ChatForm></ChatForm>
+        </div>
 
-        <ChatForm></ChatForm>
+      <div class="chatRoom_container">
+        <ChatMessage 
+          v-for="message in lastMessages"
+          :message="message"
+          :userIsAuthor="userIsAuthor(message)">
+        </ChatMessage>   
+      </div>
+                
 
 
     </div>
 </template>
 <script>
     import ChatForm from '@/components/chat/chatForm.vue'
+    import ChatMessage from '@/components/chat/chatMessage.vue'
     import {mapGetters} from 'vuex'
     export default {
 
       components: {
-        ChatForm
+        ChatForm,
+        ChatMessage
       },
       data () {
         return {
@@ -65,7 +38,16 @@
         }),
         lastMessages () {
           const lastIndex = this.messages.length
-          return this.messages.slice(lastIndex - 10, lastIndex)
+          if (this.messages.length <= 10) {
+            return this.messages.sort((msg1, msg2) => {
+              return msg1.date < msg2.date
+            })
+          } else {
+            return this.messages.slice(lastIndex - 10, lastIndex)
+            .sort((message1, message2) => {
+              return message1.date < message2.date
+            })
+          }
         }
       },
       methods: {
@@ -78,12 +60,26 @@
     }
 </script>
 <style lang="stylus">
-    h1
-        color red
+       
     .myMessage
         text-align right
         width 100%
     .otherUserMessage
         text-align left
         width 100%
+    .chatForm_container
+      position fixed
+      bottom 0px
+      left 0px
+      height 93.5%
+      width 30%
+      background-color rgba(192,192,192, 0.3)
+      
+
+    .chatRoom_container
+      width 70%
+      position absolute
+      top 35px
+      left 30%
+    
 </style>
