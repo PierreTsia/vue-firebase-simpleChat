@@ -7,10 +7,13 @@ import * as firebase from 'firebase'
 import router from './router'
 import { store } from './store'
 import { mapActions } from 'vuex'
+import VueChatScroll from 'vue-chat-scroll'
+
 const AlertCmp = () => import('./components/Shared/Alert.vue')
 
 Vue.use(Vuetify)
 Vue.use(require('vue-moment'))
+Vue.use(VueChatScroll)
 Vue.config.productionTip = false
 
 Vue.component('app-alert', AlertCmp)

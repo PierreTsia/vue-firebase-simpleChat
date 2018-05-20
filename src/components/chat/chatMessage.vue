@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <v-layout v-if="userIsAuthor">
       <div class="message">
         <img 
@@ -30,7 +30,7 @@
       </div> 
     </v-layout>
     
-  </v-container>
+  </div>
 </template>
 <script>
   export default {
@@ -52,6 +52,7 @@
   }
 </script>
 <style lang="stylus">
+
   .avatar
     width 60px
     height 60px

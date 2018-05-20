@@ -1,6 +1,6 @@
 <template>
    <v-layout row wrap>
-    <v-flex xs12 sm6 offset-sm3>
+    <v-flex xs12>
       <v-card>
         <v-card-media
           :src="board.imageUrl"
@@ -15,7 +15,8 @@
           </div>
         </v-card-title>
         <v-card-actions>
-          <v-btn flat color="purple">Edit Board</v-btn>
+          <v-btn round color="purple">Edit Board</v-btn>
+          <v-spacer></v-spacer>
           <v-btn  
             @click="handleDeleteBoard(board)" 
             color="red">Delete Board</v-btn>
@@ -50,8 +51,8 @@ export default {
 }
 </script>
 <style lang="stylus">
-.newBoard
 
-    border 1px solid blue
+
+  
 
 </style>

@@ -34,7 +34,7 @@ export default {
         const response = snapshot.val()
         const messages = []
         for (let key in response) {
-          messages.push({
+          messages.unshift({
             id: key,
             content: response[key].content,
             authorName: response[key].authorName,

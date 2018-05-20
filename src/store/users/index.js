@@ -2,7 +2,8 @@ import * as firebase from 'firebase'
 
 export default {
   state: {
-    users: null
+    users: null,
+    online: null
   },
   actions: {
     fetchAllUsers ({commit}) {
@@ -23,6 +24,6 @@ export default {
     }
   },
   getters: {
-      allUsers: state => state.users
+    allUsers: state => state.users
   }
 }
