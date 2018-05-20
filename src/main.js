@@ -23,7 +23,9 @@ new Vue({
   components: { App },
   methods: {
     ...mapActions({
-      fetchMessages: 'fetchMessages'
+      fetchMessages: 'fetchMessages',
+      fetchBoards: 'fetchBoards',
+      fetchAllUsers: 'fetchAllUsers'
     })
   },
   created () {
@@ -39,8 +41,11 @@ new Vue({
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.$store.dispatch('autoSignIn', user)
+        console.log('user autosignin: ', user)
       }
     })
     this.fetchMessages()
+    this.fetchBoards()
+    this.fetchAllUsers()
   }
 })

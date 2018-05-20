@@ -38,9 +38,9 @@ export default {
       }
       const newMessage = {
         content: this.message,
-        authorName: this.user.displayName ? this.user.displayName : this.user.email,
+        authorName: this.user.displayName ? this.user.displayName : `${this.user.firstName} ${this.user.lastName}`,
         authorId: this.user.id,
-        authorPicture: this.user.photoUrl ? this.user.photoUrl : 'https://png.icons8.com/metro/1600/contacts.png',
+        authorPicture: this.user.imgUrl ? this.user.imgUrl : this.user.photoUrl,
         date: Date()
       }
       this.postMessage(newMessage)

@@ -43,7 +43,6 @@ export default {
             date: response[key].date
           })
         }
-        console.log('response', response)
         commit('FETCH_MESSAGES_SUCCESS', messages)
       })
     }

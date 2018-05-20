@@ -12,6 +12,40 @@
             <v-container>
               <form @submit.prevent="onSignup">
                 <v-layout row>
+                  <v-flex sm5 xs12>
+                    <v-text-field
+                      name="firstName"
+                      label="First Name"
+                      id="firstNae"
+                      v-model="firstName"
+                      type="text"
+                      required></v-text-field>
+                  </v-flex>
+                  <v-spacer></v-spacer>
+             
+                  <v-flex sm5 xs12>
+                    <v-text-field
+                      name="lastName"
+                      label="Last Name"
+                      id="lastName"
+                      v-model="lastName"
+                      type="text"
+                      required></v-text-field>
+                  </v-flex>
+                </v-layout>
+                <v-layout row>
+                  <v-flex xs12>
+                    <v-text-field
+                      name="imgUrl"
+                      label="Avatar Url"
+                      id="imgUrl"
+                      v-model="imgUrl"
+                      type="text"
+                      required></v-text-field>
+                  </v-flex>
+                </v-layout>
+             
+                <v-layout row>
                   <v-flex xs12>
                     <v-text-field
                       name="email"
@@ -104,7 +138,10 @@
       return {
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        imgUrl: '',
+        firstName: '',
+        lastName: ''
       }
     },
     computed: {
@@ -130,7 +167,7 @@
     },
     methods: {
       onSignup () {
-        this.$store.dispatch('signUserUp', {email: this.email, password: this.password})
+        this.$store.dispatch('signUserUp', {email: this.email, password: this.password, imgUrl: this.imgUrl, firstName: this.firstName, lastName: this.lastName})
       },
       onSigninGoogle () {
         this.$store.dispatch('signUserInGoogle')

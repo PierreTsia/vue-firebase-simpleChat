@@ -7,23 +7,32 @@ export default {
   mutations: {
     setUser (state, payload) {
       state.user = payload
+      console.log('payload mutation setUser: ', payload)
     }
   },
   actions: {
     signUserUp ({commit}, payload) {
       commit('setLoading', true)
       commit('clearError')
+      const user = {
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        imgUrl: payload.imgUrl
+      }
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
         .then(
-          user => {
+          firebaseUser => {
             commit('setLoading', false)
             const newUser = {
-              id: user.uid,
-              name: user.displayName,
-              email: user.email,
-              photoUrl: user.photoURL
+              ...user,
+              id: firebaseUser.uid,
+              name: firebaseUser.displayName,
+              email: firebaseUser.email,
+              photoUrl: firebaseUser.photoURL
             }
+            firebase.database().ref('users').child(newUser.id).set(newUser)
             commit('setUser', newUser)
+            console.log('newUser actions signup: ', newUser)
           }
         )
         .catch(
@@ -40,16 +49,12 @@ export default {
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .then(
           user => {
-            commit('setLoading', false)
-            const newUser = {
-              id: user.uid,
-              name: user.displayName,
-              email: user.email,
-              photoUrl: user.photoURL
-            }
-            commit('setUser', newUser)
-          }
-        )
+            firebase.database().ref('users').child(user.uid).once('value', snapshot => {
+              const firebaseUser = snapshot.val()
+              commit('setLoading', false)
+              commit('setUser', firebaseUser)
+            })
+          })
         .catch(
           error => {
             commit('setLoading', false)
@@ -64,13 +69,15 @@ export default {
       firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
         .then(
           user => {
+            console.log('user pouet: ', user)
             commit('setLoading', false)
             const newUser = {
-              id: user.uid,
-              name: user.displayName,
-              email: user.email,
-              photoUrl: user.photoURL
+              displayName: user.user.displayName,
+              id: user.user.uid,
+              photoUrl: user.user.photoURL
             }
+            console.log('newUser: ', newUser)
+            firebase.database().ref('users').child(newUser.id).set(newUser)
             commit('setUser', newUser)
           }
         )
@@ -155,11 +162,11 @@ export default {
         )
     },
     autoSignIn ({commit}, payload) {
-      commit('setUser', {
-        id: payload.uid,
-        name: payload.displayName,
-        email: payload.email,
-        photoUrl: payload.photoURL
+      console.log('payload: ', payload)
+      firebase.database().ref('users').child(payload.uid).once('value', snapshot => {
+        const newUser = snapshot.val()
+        console.log('autosignin commit', newUser)
+        commit('setUser', newUser)
       })
     },
     logout ({commit}) {
