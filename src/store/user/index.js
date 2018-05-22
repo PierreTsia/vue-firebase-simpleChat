@@ -7,7 +7,6 @@ export default {
   mutations: {
     setUser (state, payload) {
       state.user = payload
-      console.log('payload mutation setUser: ', payload)
     }
   },
   actions: {
@@ -32,7 +31,6 @@ export default {
             }
             firebase.database().ref('users').child(newUser.id).set(newUser)
             commit('setUser', newUser)
-            console.log('newUser actions signup: ', newUser)
           }
         )
         .catch(
@@ -162,10 +160,8 @@ export default {
         )
     },
     autoSignIn ({commit}, payload) {
-      console.log('payload: ', payload)
       firebase.database().ref('users').child(payload.uid).once('value', snapshot => {
         const newUser = snapshot.val()
-        console.log('autosignin commit', newUser)
         commit('setUser', newUser)
       })
     },

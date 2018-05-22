@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h2>CHATFORM</h2>
+  
          <v-container fluid>
             <v-layout column>
               <v-flex xs4>

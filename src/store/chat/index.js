@@ -9,13 +9,11 @@ export default {
       state.messages.push(payload)
     },
     FETCH_MESSAGES_SUCCESS (state, payload) {
-      console.log('payload', payload)
       state.messages = payload
     }
   },
   actions: {
     postMessage ({commit}, newMessage) {
-      console.log('newMessage', newMessage)
       let key
       firebase.database().ref('/chat/messages').push(newMessage)
       .then(data => {
@@ -24,8 +22,6 @@ export default {
       })
       .then(key => {
         firebase.database().ref('/chat/messages/' + key).once('value', snapshot => {
-          console.log('snap', snapshot.val())
-          // commit('POST_MESSAGE', snapshot.val())
         })
       })
     },

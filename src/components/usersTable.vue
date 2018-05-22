@@ -19,8 +19,9 @@
           <v-subheader inset>Users</v-subheader>
           <v-list-tile v-for="user in users" :key="user.id" avatar @click="">
             <v-list-tile-avatar>
-              <v-icon v-if="user.photoUrl" :class="[user.iconClass]"></v-icon>
-              <v-icon v-else :class="[user.iconClass]"></v-icon>
+              <img v-if="user.photoUrl" :src="user.photoUrl">
+              <img v-if="user.imgUrl" :src="user.imgUrl">
+              <img v-if="!user.photoUrl && !user.imgUrl" src="../assets/avatar/default.png"/>
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title v-if=" user.displayName">{{ user.displayName }}</v-list-tile-title>
@@ -42,7 +43,11 @@
 </template>
 <script>
 import {mapGetters} from 'vuex'
+import Avatar from '@/components/utils/avatar.vue'
 export default {
+  component: {
+    Avatar
+  },
   data () {
     return {
       title: 'Users',

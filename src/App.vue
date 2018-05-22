@@ -92,4 +92,10 @@
 
 <style lang="stylus">
   @import './stylus/main'
+
+  #app
+    padding-top 64px
+    background #BBDEFB
+
+
 </style>

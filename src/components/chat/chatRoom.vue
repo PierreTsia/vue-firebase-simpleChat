@@ -3,9 +3,9 @@
     <v-layout row>
       <v-flex class="left__panel" xs12 sm6>
         <v-layout column xs12>
-          <ChatForm></ChatForm>
-          <v-spacer></v-spacer>
           <UsersTable></UsersTable>
+          <v-spacer></v-spacer>
+          <ChatForm></ChatForm>
         </v-layout>
         
       </v-flex>
@@ -60,6 +60,9 @@
       },
       methods: {
         userIsAuthor (message) {
+          if (!this.user) {
+            return false
+          }
           return this.user.id === message.authorId
         }
       },
@@ -70,20 +73,17 @@
 <style lang="stylus">
        
 .messages__board, .left__panel
-    margin-top 50px
     height 90vh
-   
 .messages__board
   overflow-y scroll
-  overflow hidden
-    .message__container
-      border 1px solid blue
-      position relative
-      height 100%
-      bottom 0px
-      display flex
-      flex-direction column
-      justify-content flex-end
+  text-overflow ellipsis
+  .message__container
+    border 1px solid blue
+    background-color white
+    position relative
+    display flex
+    flex-direction column
+    justify-content flex-end
       .messageComponent
         border 1px solid green
         height 120px

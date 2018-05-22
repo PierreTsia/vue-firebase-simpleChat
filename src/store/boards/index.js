@@ -2,32 +2,32 @@ import firebase from 'firebase'
 
 export default {
   state: {
-    boards: []
+    boards: [],
+    curentBoard: null,
+    currentBoardColumns: []
   },
   mutations: {
     ADD_BOARD_SUCCESS (state, payload) {
       state.boards.push(payload)
     },
     FETCH_BOARDS_SUCCESS (state, payload) {
-      console.log('payload boards', payload)
       state.boards = payload
+    },
+    FETCH_CURRENTBOARD_SUCCESS (state, payload) {
+      state.curentBoard = payload
+    },
+    FETCH_CURRENTBOARD_COLUMNS_SUCESS (state, payload) {
+      state.currentBoardColumns = payload
     }
   },
   actions: {
     addBoard ({commit}, newBoard) {
-      console.log('newMessage', newBoard)
       let key
       firebase.database().ref('boards').push(newBoard)
       .then(data => {
         key = data.key
-        console.log(data.val())
         return key
       })
-      /* .then(key => {
-        firebase.database().ref('/boards/' + key).once('value', snapshot => {
-          console.log('snap boards', snapshot.val())
-        })
-      }) */
     },
     deleteBoard ({commit}, boardId) {
       firebase.database().ref('boards/' + boardId).remove()
@@ -44,15 +44,41 @@ export default {
             authorName: response[key].authorName,
             authorId: response[key].authorId,
             date: response[key].date,
-            imageUrl: response[key].imageUrl
+            imageUrl: response[key].imageUrl,
+            columns: response[key].columns
           })
         }
-        console.log('response', response)
         commit('FETCH_BOARDS_SUCCESS', boards)
       })
+    },
+    fetchBoardById ({commit}, boardId) {
+      firebase.database().ref('boards/').child(boardId).on('value', snapshot => {
+        const board = snapshot.val()
+        commit('FETCH_CURRENTBOARD_SUCCESS', {id: boardId, ...board})
+        const columns = []
+        for (let key in board.columns) {
+          columns.push({
+            id: key,
+            authorId: board.columns[key].authorId,
+            createdOn: board.columns[key].createdOn,
+            title: board.columns[key].title,
+            subTitle: board.columns[key].subTitle
+          })
+        }
+        commit('FETCH_CURRENTBOARD_COLUMNS_SUCESS', columns)
+      })
+    },
+    addColumn ({commit}, newColumn) {
+      firebase.database().ref('boards/' + newColumn.boardId).child('columns').push(newColumn)
+      .then(snapshot => {
+        console.log(snapshot.val())
+      })
+      .catch(error => console.log(error))
     }
   },
   getters: {
-    boards: state => state.boards
+    boards: state => state.boards,
+    currentBoard: state => state.curentBoard,
+    currentBoardColumns: state => state.currentBoardColumns
   }
 }

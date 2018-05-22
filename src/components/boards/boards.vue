@@ -93,7 +93,6 @@ export default {
         tasks: [],
         date: Date()
       }
-      console.log(newBoard)
       this.addBoard(newBoard)
       this.dialog2 = false
     },
@@ -113,7 +112,6 @@ export default {
     .boards
         padding 0
         margin 0
-        margin-top 70px
     .board_card
       margin 10px
 

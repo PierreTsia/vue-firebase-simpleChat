@@ -15,7 +15,7 @@
           </div>
         </v-card-title>
         <v-card-actions>
-          <v-btn round color="purple">Edit Board</v-btn>
+          <v-btn :to="'/board/'+board.id" round color="purple">Edit Board</v-btn>
           <v-spacer></v-spacer>
           <v-btn  
             @click="handleDeleteBoard(board)" 
